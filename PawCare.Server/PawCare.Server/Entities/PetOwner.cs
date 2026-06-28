@@ -1,4 +1,4 @@
-﻿namespace PawCare.Server;
+﻿namespace PawCare.Server.Entities;
 
 public class PetOwner
 {

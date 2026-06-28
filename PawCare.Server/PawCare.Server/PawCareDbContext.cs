@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PawCare.Server.Entities;
 
 namespace PawCare.Server;
 
@@ -16,10 +17,17 @@ public class PawCareDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // Link Pet to PetOwner
+        modelBuilder.Entity<Pet>()
+            .HasOne(p => p.Owner)
+            .WithMany(o => o.Pets)
+            .HasForeignKey(p => p.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade); // If an owner is deleted, delete their pets (and by cascade, their appointments)
+
         // Link Appointment to Pet
         modelBuilder.Entity<Appointment>()
             .HasOne(a => a.Pet)
-            .WithMany()
+            .WithMany(p => p.Appointments)
             .HasForeignKey(a => a.PetId)
             .OnDelete(DeleteBehavior.Cascade); // If a pet is deleted, delete their appointments
 
