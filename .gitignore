@@ -1,0 +1,405 @@
+# ==========================================
+# Language & Runtime Environments
+# ==========================================
+
+# Node.js / Frontend
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Python
+__pycache__/
+*.pyc
+
+# dotenv files
+.env
+
+# ==========================================
+# IDEs and Editors
+# ==========================================
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# Vim
+*.sw?
+*.swp
+
+# ==========================================
+# .NET / Visual Studio
+# ==========================================
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.usertasks
+
+# Mono / Xamarin
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options directory
+.vs/
+# Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+# Visual Studio auto generated files
+Generated\ Files/
+Generated_Code/
+
+# MSTest / NUnit
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+test-results/
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+# Benchmark Results
+BenchmarkDotNet.Artifacts/
+
+# .NET Core / Project locks
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Tye
+.tye/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+!Directory.Build.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Chutzpah Test files
+_Chutzpah*
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# Visual Studio profiler & Trace Files
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.e2e
+
+# TFS 2012 Local Workspace
+$tf/
+
+# Guidance Automation Toolkit
+*.gpState
+
+# ReSharper / TeamCity / DotCover / AxoCover / Coverlet
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+_TeamCity*
+*.dotCover
+.axoCover/*
+!.axoCover/settings.json
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+
+# NCrunch / MightyMoose
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+*.mm.*
+AutoTest.Net/
+
+# Web workbench (sass)
+.sass-cache/
+
+# Installshield output folder
+[Ee]xpress/
+
+# DocProject
+DocProject/buildhelp/
+DocProject/Help/*.HxT
+DocProject/Help/*.HxC
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/Html2
+DocProject/Help/html
+
+# Click-Once / Publish Web Output
+publish/
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+PublishScripts/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Azure Build Output & Emulator
+csx/
+*.build.csdef
+ecf/
+rcf/
+
+# Windows Store app package directories
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.appxupload
+
+# Visual Studio cache files
+*.[Cc]ache
+!?*.[Cc]ache/
+
+# Others / Legacy
+ClientBin/
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+#*.snk
+#bower_components/
+
+# Backup & report files (Project migration)
+_UpgradeReport_Files/
+Backup*/
+UpgradeLog*.XML
+UpgradeLog*.htm
+ServiceFabricBackup/
+*.rptproj.bak
+MigrationBackup/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# GhostDoc
+*.GhostDoc.xml
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+
+# Visual Studio 6 (Legacy)
+*.plg
+*.opt
+*.vbw
+*.vbp
+*.dsw
+*.dsp
+
+# Visual Studio LightSwitch
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions
+
+# Paket dependency manager
+.paket/paket.exe
+paket-files/
+
+# FAKE - F# Make
+.fake/
+
+# CodeRush personal settings
+.cr/personal
+
+# Tabs Studio
+*.tss
+
+# Telerik's JustMock
+*.jmconfig
+
+# BizTalk build output
+*.btp.cs
+*.btm.cs
+*.odx.cs
+*.xsd.cs
+
+# OpenCover UI
+OpenCover/
+
+# Azure Stream Analytics local run output
+ASALocalRun/
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# NVidia Nsight GPU debugger
+*.nvuser
+
+# MFractors (Xamarin productivity tool)
+.mfractor/
+
+# Local History for Visual Studio
+.localhistory/
+.vshistory/
+
+# BeatPulse healthcheck temp database
+healthchecksdb
+
+# Ionide (cross platform F# VS Code tools)
+.ionide/
+
+# Fody
+FodyWeavers.xsd
+
+# ==========================================
+# Visual Studio for Mac / Make
+# ==========================================
+
+Makefile.in
+config.make
+config.status
+aclocal.m4
+install-sh
+autom4te.cache/
+*.tar.gz
+tarballs/
+
+# ==========================================
+# Operating System Global Rules
+# ==========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
