@@ -1,0 +1,5 @@
+@PawCare.Server_HostAddress = https://localhost:7228
+
+GET {{PawCare.Server_HostAddress}}/healthcheck
+
+###
