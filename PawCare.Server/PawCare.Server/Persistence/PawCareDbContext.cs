@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PawCare.Server.Entities;
 
-namespace PawCare.Server;
+namespace PawCare.Server.Persistence;
 
 public class PawCareDbContext : DbContext
 {
@@ -37,5 +37,21 @@ public class PawCareDbContext : DbContext
             .WithMany(v => v.Appointments)
             .HasForeignKey(a => a.VeterinarianId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent deleting a vet if they have appointments scheduled
+
+        modelBuilder.Entity<Veterinarian>()
+            .Property(v => v.Specialty)
+            .HasConversion<string>(); // Stores enum values as readable strings in the DB
+
+        modelBuilder.Entity<Appointment>()
+            .Property(a => a.Status)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Appointment>()
+            .Property(a => a.Reason)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Pet>()
+            .Property(p => p.Species)
+            .HasConversion<string>();
     }
 }

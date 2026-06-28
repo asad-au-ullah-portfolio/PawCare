@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using PawCare.Server;
+using PawCare.Server.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

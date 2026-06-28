@@ -1,13 +1,21 @@
-﻿namespace PawCare.Server.Entities;
+﻿using PawCare.Server.Enums;
+
+namespace PawCare.Server.Entities;
 
 public class Appointment
 {
     public int Id { get; set; }
     public DateTime ScheduledAt { get; set; }
-    public string Status { get; set; } = "Scheduled"; // e.g., "Scheduled", "Completed", "Cancelled"
-    public string Reason { get; set; } = string.Empty; // e.g., "Vaccination", "Checkup"
-    public string Notes { get; set; } = string.Empty; // Clinical notes recorded after the appointment
-    public int DurationMinutes { get; set; } = 30; // Length of the appointment slot
+    public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
+    public AppointmentReason Reason { get; set; } = AppointmentReason.Checkup;
+    /// <summary>
+    /// Clinical notes recorded after the appointment
+    /// </summary>
+    public string Notes { get; set; } = string.Empty;
+    /// <summary>
+    /// Length of the appointment slot
+    /// </summary>
+    public int DurationMinutes { get; set; } = 30;
 
     /// <summary>
     /// Relationships
