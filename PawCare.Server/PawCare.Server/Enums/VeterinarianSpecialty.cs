@@ -2,19 +2,19 @@
 
 public enum VeterinarianSpecialty
 {
-    // General & Primary Care
-    GeneralMedicine = 1,      // Standard wellness exams, vaccines, general care
-    EmergencyAndCriticalCare, // ER, trauma, and urgent life-saving care
+    GeneralPractice = 1,
 
-    // Specialized Anatomy & Medicine
-    Surgery,                 // Orthopedic and soft-tissue surgical procedures
-    InternalMedicine,        // Complex chronic diseases (e.g., diabetes, renal failure)
-    Dermatology,             // Skin conditions and allergies
-    Cardiology,              // Heart conditions and cardiovascular health
-    Oncology,                // Cancer treatments and chemotherapy
-    Dentistry,               // Oral surgeries, teeth cleanings, and extractions
+    InternalMedicine,
 
-    // Animal Group Specialists
-    ExoticAnimals,           // Birds, reptiles, rodents, and pocket pets
-    EquineAndLargeAnimal     // Horses, cattle, and farm livestock
+    Dermatology,
+
+    Cardiology,
+
+    Dentistry,
+
+    Surgery,
+
+    Oncology,
+
+    ExoticAnimals
 }
