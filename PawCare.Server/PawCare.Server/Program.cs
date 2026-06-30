@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Scalar.AspNetCore;
+using PawCare.Server.Entities;
+using PawCare.Server.Persistence;
+using PawCare.Server.Features.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PawCare.Server.Entities;
-using PawCare.Server.Persistence;
-using Scalar.AspNetCore;
-using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,7 +80,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("PetOwnerOnly",
@@ -88,6 +88,14 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("VeterinarianOnly",
         policy => policy.RequireRole("Veterinarian"));
 });
+
+// Options
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection(JwtOptions.SectionName));
+
+// Auth services
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -100,19 +108,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Pipeline Order matters immensely here:
 app.UseCors(PawCareCorsPolicy);
 
-app.UseAuthentication(); // 1st: Who are they?
-app.UseAuthorization();  // 2nd: What are they allowed to do?
+app.UseAuthentication();
+app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    foreach (var role in new[] { Roles.PetOwner, Roles.Veterinarian })
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+
+#region End Points
+app.MapAuthEndpoints();
+
+#endregion
 
 #region Basic APIs
 app.MapGet("/health", () => Results.Ok("Healthy"));
-#endregion
-
-#region PetCare
-// Protected endpoint example:
-// app.MapGet("/api/protected-pets", () => ...).RequireAuthorization();
 #endregion
 
 app.Run();
