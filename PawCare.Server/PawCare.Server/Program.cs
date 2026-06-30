@@ -1,15 +1,18 @@
-using System.Text;
-using Scalar.AspNetCore;
-using PawCare.Server.Entities;
-using PawCare.Server.Persistence;
-using PawCare.Server.Features.Auth;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using PawCare.Server.Entities;
+using PawCare.Server.Features.Auth;
+using PawCare.Server.Features.Pets;
+using PawCare.Server.Persistence;
+using Scalar.AspNetCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Cors Policy
 const string PawCareCorsPolicy = "_PawCareCorsPolicy";
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
                      ?? Array.Empty<string>();
@@ -33,30 +36,34 @@ builder.Services.AddCors(options =>
             }
         });
 });
+#endregion
 
 // Add services to the container.
 builder.Services.AddOpenApi();
 
+#region DB Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<PawCareDbContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(connectionString)); 
+#endregion
 
 builder.Services.AddDataProtection();
 
+#region Identity and JWT
 builder.Services
-    .AddIdentityCore<ApplicationUser>(options =>
-    {
-        options.User.RequireUniqueEmail = true;
+.AddIdentityCore<ApplicationUser>(options =>
+{
+options.User.RequireUniqueEmail = true;
 
-        options.Password.RequiredLength = 6;
-        options.Password.RequireDigit = true;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireNonAlphanumeric = false;
-    })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<PawCareDbContext>()
-    .AddDefaultTokenProviders();
+options.Password.RequiredLength = 6;
+options.Password.RequireDigit = true;
+options.Password.RequireUppercase = false;
+options.Password.RequireLowercase = true;
+options.Password.RequireNonAlphanumeric = false;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<PawCareDbContext>()
+.AddDefaultTokenProviders();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var jwtKey = jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Signing Key is missing.");
@@ -93,9 +100,16 @@ builder.Services.AddAuthorization(options =>
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection(JwtOptions.SectionName));
 
-// Auth services
+#endregion
+
+#region Registered Services
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IValidator<CreatePetRequest>, CreatePetRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdatePetRequest>, UpdatePetRequestValidator>();
+
+#endregion
 
 var app = builder.Build();
 
@@ -126,6 +140,7 @@ using (var scope = app.Services.CreateScope())
 
 #region End Points
 app.MapAuthEndpoints();
+app.MapPetEndpoints();
 
 #endregion
 
