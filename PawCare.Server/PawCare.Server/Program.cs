@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PawCare.Server.Entities;
+using PawCare.Server.Features.Appointments;
 using PawCare.Server.Features.Auth;
 using PawCare.Server.Features.Pets;
+using PawCare.Server.Features.Veterinarians;
 using PawCare.Server.Persistence;
 using Scalar.AspNetCore;
 using System.Text;
@@ -108,6 +110,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IValidator<CreatePetRequest>, CreatePetRequestValidator>();
 builder.Services.AddScoped<IValidator<UpdatePetRequest>, UpdatePetRequestValidator>();
+builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IValidator<CreateAppointmentRequest>, CreateAppointmentRequestValidator>();
 
 #endregion
 
@@ -141,11 +146,14 @@ using (var scope = app.Services.CreateScope())
 #region End Points
 app.MapAuthEndpoints();
 app.MapPetEndpoints();
+app.MapVeterinarianEndpoints();
+app.MapAppointmentEndpoints();
 
 #endregion
 
 #region Basic APIs
 app.MapGet("/health", () => Results.Ok("Healthy"));
+
 #endregion
 
 app.Run();

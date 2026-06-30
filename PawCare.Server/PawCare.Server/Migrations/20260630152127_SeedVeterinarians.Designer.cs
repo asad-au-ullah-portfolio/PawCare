@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PawCare.Server.Persistence;
@@ -11,9 +12,11 @@ using PawCare.Server.Persistence;
 namespace PawCare.Server.Migrations
 {
     [DbContext(typeof(PawCareDbContext))]
-    partial class PawCareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260630152127_SeedVeterinarians")]
+    partial class SeedVeterinarians
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

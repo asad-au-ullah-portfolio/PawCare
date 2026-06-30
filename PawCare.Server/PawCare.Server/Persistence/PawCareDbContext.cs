@@ -71,5 +71,10 @@ public class PawCareDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Pet>()
             .Property(p => p.Species)
             .HasConversion<string>();
+
+        var (seedUsers, seedVets) = SeedData.Build();
+
+        modelBuilder.Entity<ApplicationUser>().HasData(seedUsers);
+        modelBuilder.Entity<Veterinarian>().HasData(seedVets);
     }
 }

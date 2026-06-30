@@ -10,7 +10,8 @@ public class Veterinarian
     public string LastName { get; set; } = string.Empty;
 
     public string LicenseNumber { get; set; } = string.Empty;
-
+    public int YearsOfExperience { get; set; }
+    public decimal ConsultationFee { get; set; }
     public VeterinarianSpecialty Specialty { get; set; }
 
     public string ApplicationUserId { get; set; } = string.Empty;
