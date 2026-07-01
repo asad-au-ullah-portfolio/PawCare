@@ -1,38 +1,53 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { AuthProvider } from './context/AuthContext'
+import { PrivateRoute } from './components/PrivateRoute'
 
-function App() {
-  const [message, setMessage] = useState<string>("Testing connection...");
-  const [error, setError] = useState<string | null>(null);
+import { Home } from './pages/Home'
+import { Login } from './pages/Login'
+import { Register } from './pages/Register'
+import { Dashboard } from './pages/Dashboard'
+import { Pets } from './pages/Pets'
+import { PetForm } from './pages/PetForm'
+import { Veterinarians } from './pages/Veterinarians'
+import { BookAppointment } from './pages/BookAppointment'
+import { Appointments } from './pages/Appointments'
 
-  useEffect(() => {
-    const API_URL = 'https://localhost:7228/healthcheck'; 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 1000 * 60,
+    },
+  },
+})
 
-    fetch(API_URL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMessage(data.message || "Connected successfully!");
-      })
-      .catch((err) => {
-        console.error("Fetch error:", err);
-        setError(err.message);
-      });
-  }, []);
-
+export default function App() {
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>CORS Test</h1>
-      {error ? (
-        <p style={{ color: 'red' }}>❌ Error: {error}</p>
-      ) : (
-        <p style={{ color: 'green' }}>✅ Response: {message}</p>
-      )}
-    </div>
-  );
-}
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-export default App;
+            {/* Protected */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/pets" element={<Pets />} />
+              <Route path="/pets/new" element={<PetForm />} />
+              <Route path="/pets/:id/edit" element={<PetForm />} />
+              <Route path="/veterinarians" element={<Veterinarians />} />
+              <Route path="/book/:vetId" element={<BookAppointment />} />
+              <Route path="/appointments" element={<Appointments />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
+  )
+}
