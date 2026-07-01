@@ -1,55 +1,86 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
-    { to: '/dashboard', label: 'Dashboard' },
-    { to: '/pets', label: 'My Pets' },
-    { to: '/veterinarians', label: 'Veterinarians' },
-    { to: '/appointments', label: 'Appointments' },
-]
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/pets", label: "My Pets" },
+    { to: "/veterinarians", label: "Veterinarians" },
+    { to: "/appointments", label: "Appointments" },
+];
 
 export function Navbar() {
-    const { user, logout } = useAuth()
-    const navigate = useNavigate()
-    const location = useLocation()
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
-        logout()
-        navigate('/login')
-    }
+        logout();
+        navigate("/login");
+    };
+
+    const initials =
+        user?.email?.substring(0, 2).toUpperCase() ?? "PC";
 
     return (
-        <nav className="bg-white border-b border-gray-200">
-            <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-                <Link to="/dashboard" className="text-xl font-bold text-teal-600 tracking-tight">
+        <header className="border-b bg-background">
+            <div className="container mx-auto flex h-16 items-center justify-between px-4">
+                <Link
+                    to="/dashboard"
+                    className="text-xl font-bold text-primary"
+                >
                     PawCare
                 </Link>
 
-                <div className="hidden md:flex items-center gap-6">
+                <nav className="hidden items-center gap-2 md:flex">
                     {navLinks.map(({ to, label }) => (
                         <Link
-                            key={to}
                             to={to}
-                            className={`text-sm font-medium transition-colors ${location.pathname.startsWith(to)
-                                    ? 'text-teal-600'
-                                    : 'text-gray-500 hover:text-gray-900'
-                                }`}
+                            className={cn(
+                                "text-sm font-medium transition-colors hover:text-foreground",
+                                location.pathname.startsWith(to)
+                                    ? "text-primary"
+                                    : "text-muted-foreground"
+                            )}
                         >
                             {label}
                         </Link>
+                        // <Link to={to} key={to}>
+                        //     <Button variant="ghost">
+                        //         {label}
+                        //     </Button>
+                        // </Link>
                     ))}
-                </div>
+                </nav>
 
-                <div className="flex items-center gap-4">
-                    <span className="text-sm text-gray-500 hidden md:block">{user?.email}</span>
-                    <button
+                <div className="flex items-center gap-3">
+                    <Separator
+                        orientation="vertical"
+                        className="hidden h-6 md:block"
+                    />
+
+                    <Avatar className="h-9 w-9">
+                        <AvatarFallback>
+                            {initials}
+                        </AvatarFallback>
+                    </Avatar>
+
+                    <div className="hidden md:block text-sm text-muted-foreground">
+                        {user?.email}
+                    </div>
+
+                    <Button
+                        variant="outline"
                         onClick={handleLogout}
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
                     >
                         Sign out
-                    </button>
+                    </Button>
                 </div>
             </div>
-        </nav>
-    )
+        </header>
+    );
 }

@@ -1,4 +1,16 @@
-import { useForm } from 'react-hook-form'
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+
+import {
+    FieldGroup,
+} from "@/components/ui/field";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
@@ -6,6 +18,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import type { RegisterRequest } from '../../services/api'
 import axios from 'axios'
+
+import { useForm } from "react-hook-form";
+import { FormInput } from "@/components/form/FormInput";
+
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -22,33 +38,21 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-// ─── Field config ─────────────────────────────────────────────────────────────
-
-const fields: {
-    name: keyof FormData
-    label: string
-    type: string
-    placeholder: string
-    autoComplete: string
-    half?: boolean
-}[] = [
-        { name: 'firstName', label: 'First name', type: 'text', placeholder: 'Jane', autoComplete: 'given-name', half: true },
-        { name: 'lastName', label: 'Last name', type: 'text', placeholder: 'Smith', autoComplete: 'family-name', half: true },
-        { name: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com', autoComplete: 'email' },
-        { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••', autoComplete: 'new-password' },
-    ]
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function Register() {
     const { register: registerUser } = useAuth()
     const navigate = useNavigate()
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormData>({ resolver: zodResolver(schema) })
+    const form = useForm<FormData>({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+        },
+    });
 
     const mutation = useMutation({
         mutationFn: (data: RegisterRequest) => registerUser(data),
@@ -58,83 +62,188 @@ export function Register() {
     const onSubmit = (data: FormData) => mutation.mutate(data)
 
     const errorMessage = mutation.error
-        ? axios.isAxiosError(mutation.error) && mutation.error.response?.status === 409
+        ? axios.isAxiosError(mutation.error) && mutation.error.response?.status === 400
             ? 'An account with this email already exists.'
             : 'Something went wrong. Please try again.'
         : null
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-background flex items-center justify-center px-4">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-teal-600">PawCare</h1>
-                    <p className="text-gray-500 mt-2">Create your account</p>
+                    <p className="text-muted-foreground mt-2">
+                        Create your account
+                    </p>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                        <div className="grid grid-cols-2 gap-4">
-                            {fields
-                                .filter((f) => f.half)
-                                .map(({ name, label, type, placeholder, autoComplete }) => (
-                                    <div key={name}>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            {label}
-                                        </label>
-                                        <input
-                                            {...register(name)}
-                                            type={type}
-                                            autoComplete={autoComplete}
-                                            placeholder={placeholder}
-                                            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition"
-                                        />
-                                        {errors[name] && (
-                                            <p className="text-red-500 text-xs mt-1">{errors[name]?.message}</p>
-                                        )}
-                                    </div>
-                                ))}
-                        </div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Create account</CardTitle>
+                        <CardDescription>
+                            Enter your information to create your PawCare account.
+                        </CardDescription>
+                    </CardHeader>
 
-                        {fields
-                            .filter((f) => !f.half)
-                            .map(({ name, label, type, placeholder, autoComplete }) => (
-                                <div key={name}>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        {label}
-                                    </label>
-                                    <input
-                                        {...register(name)}
-                                        type={type}
-                                        autoComplete={autoComplete}
-                                        placeholder={placeholder}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition"
-                                    />
-                                    {errors[name] && (
-                                        <p className="text-red-500 text-xs mt-1">{errors[name]?.message}</p>
-                                    )}
-                                </div>
-                            ))}
-
-                        {errorMessage && (
-                            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
-                        )}
-
-                        <button
-                            type="submit"
-                            disabled={mutation.isPending}
-                            className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white font-medium py-2.5 rounded-lg text-sm transition-colors"
+                    <CardContent>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-6"
                         >
-                            {mutation.isPending ? 'Creating account…' : 'Create account'}
-                        </button>
-                    </form>
-                </div>
+                            {/* <FieldGroup>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Controller
+                                        control={form.control}
+                                        name="firstName"
+                                        render={({ field, fieldState }) => (
+                                            <Field>
+                                                <FieldLabel>First name</FieldLabel>
 
-                <p className="text-center text-sm text-gray-500 mt-6">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-teal-600 font-medium hover:underline">
-                        Sign in
-                    </Link>
-                </p>
+                                                <Input
+                                                    {...field}
+                                                    placeholder="Jane"
+                                                    autoComplete="given-name"
+                                                />
+
+                                                {fieldState.error && (
+                                                    <FieldError errors={[fieldState.error]} />
+                                                )}
+                                            </Field>
+                                        )}
+                                    />
+
+                                    <Controller
+                                        control={form.control}
+                                        name="lastName"
+                                        render={({ field, fieldState }) => (
+                                            <Field>
+                                                <FieldLabel>Last name</FieldLabel>
+
+                                                <Input
+                                                    {...field}
+                                                    placeholder="Smith"
+                                                    autoComplete="family-name"
+                                                />
+
+                                                {fieldState.error && (
+                                                    <FieldError errors={[fieldState.error]} />
+                                                )}
+                                            </Field>
+                                        )}
+                                    />
+                                </div>
+
+                                <Controller
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field, fieldState }) => (
+                                        <Field>
+                                            <FieldLabel>Email</FieldLabel>
+
+                                            <Input
+                                                {...field}
+                                                type="email"
+                                                autoComplete="email"
+                                                placeholder="you@example.com"
+                                            />
+
+                                            {fieldState.error && (
+                                                <FieldError errors={[fieldState.error]} />
+                                            )}
+                                        </Field>
+                                    )}
+                                />
+
+                                <Controller
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field, fieldState }) => (
+                                        <Field>
+                                            <FieldLabel>Password</FieldLabel>
+
+                                            <Input
+                                                {...field}
+                                                type="password"
+                                                autoComplete="new-password"
+                                                placeholder="••••••••"
+                                            />
+
+                                            {fieldState.error && (
+                                                <FieldError errors={[fieldState.error]} />
+                                            )}
+                                        </Field>
+                                    )}
+                                />
+                            </FieldGroup> */}
+
+                            <FieldGroup>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <FormInput
+                                        control={form.control}
+                                        name="firstName"
+                                        label="First name"
+                                        placeholder="Jane"
+                                        autoComplete="given-name"
+                                    />
+
+                                    <FormInput
+                                        control={form.control}
+                                        name="lastName"
+                                        label="Last name"
+                                        placeholder="Smith"
+                                        autoComplete="family-name"
+                                    />
+                                </div>
+
+                                <FormInput
+                                    control={form.control}
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    autoComplete="email"
+                                />
+
+                                <FormInput
+                                    control={form.control}
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                    autoComplete="new-password"
+                                />
+                            </FieldGroup>
+
+                            {errorMessage && (
+                                <p className="text-destructive text-sm text-center">
+                                    {errorMessage}
+                                </p>
+                            )}
+
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={mutation.isPending}
+                            >
+                                {mutation.isPending
+                                    ? "Creating account…"
+                                    : "Create account"}
+                            </Button>
+                        </form>
+                    </CardContent>
+
+                    <CardFooter className="justify-center">
+                        <p className="text-sm text-muted-foreground">
+                            Already have an account?{" "}
+                            <Link
+                                to="/login"
+                                className="text-teal-600 font-medium hover:underline"
+                            >
+                                Sign in
+                            </Link>
+                        </p>
+                    </CardFooter>
+                </Card>
             </div>
         </div>
     )

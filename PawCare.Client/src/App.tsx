@@ -12,6 +12,7 @@ import { PetForm } from './pages/PetForm'
 import { Veterinarians } from './pages/Veterinarians'
 import { BookAppointment } from './pages/BookAppointment'
 import { Appointments } from './pages/Appointments'
+import { Layout } from "./pages/Layout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,7 +35,7 @@ export default function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Protected */}
-            <Route element={<PrivateRoute />}>
+            {/* <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/pets" element={<Pets />} />
               <Route path="/pets/new" element={<PetForm />} />
@@ -42,8 +43,18 @@ export default function App() {
               <Route path="/veterinarians" element={<Veterinarians />} />
               <Route path="/book/:vetId" element={<BookAppointment />} />
               <Route path="/appointments" element={<Appointments />} />
+            </Route> */}
+            <Route element={<PrivateRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/pets" element={<Pets />} />
+                <Route path="/pets/new" element={<PetForm />} />
+                <Route path="/pets/:id/edit" element={<PetForm />} />
+                <Route path="/veterinarians" element={<Veterinarians />} />
+                <Route path="/book/:vetId" element={<BookAppointment />} />
+                <Route path="/appointments" element={<Appointments />} />
+              </Route>
             </Route>
-
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

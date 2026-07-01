@@ -1,11 +1,17 @@
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
 import type { LoginRequest } from '../../services/api'
-import axios from 'axios'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import {
+    FieldGroup,
+} from "@/components/ui/field"
+import { FormInput } from "@/components/form/FormInput";
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -22,11 +28,7 @@ export function Login() {
     const { login } = useAuth()
     const navigate = useNavigate()
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormData>({ resolver: zodResolver(schema) })
+    const form = useForm<FormData>({ resolver: zodResolver(schema) })
 
     const mutation = useMutation({
         mutationFn: (data: LoginRequest) => login(data),
@@ -42,67 +44,67 @@ export function Login() {
         : null
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-background flex items-center justify-center px-4">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-teal-600">PawCare</h1>
-                    <p className="text-gray-500 mt-2">Sign in to your account</p>
+                    <p className="text-muted-foreground mt-2">Sign in to your account</p>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Email
-                            </label>
-                            <input
-                                {...register('email')}
-                                type="email"
-                                autoComplete="email"
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition"
-                                placeholder="you@example.com"
-                            />
-                            {errors.email && (
-                                <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Sign in</CardTitle>
+                        <CardDescription>Enter your email and password to continue.</CardDescription>
+                    </CardHeader>
+
+                    <CardContent>
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+
+                            <FieldGroup>
+                                <FormInput
+                                    control={form.control}
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    autoComplete="email"
+                                />
+
+                                <FormInput
+                                    control={form.control}
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                    autoComplete="current-password"
+                                />
+                            </FieldGroup>
+
+                            {errorMessage && (
+                                <p className="text-destructive text-sm mt-4 text-center">
+                                    {errorMessage}
+                                </p>
                             )}
-                        </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
-                            <input
-                                {...register('password')}
-                                type="password"
-                                autoComplete="current-password"
-                                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition"
-                                placeholder="••••••••"
-                            />
-                            {errors.password && (
-                                <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
-                            )}
-                        </div>
+                            <Button
+                                type="submit"
+                                className="w-full mt-6"
+                                disabled={mutation.isPending}
+                            >
+                                {mutation.isPending ? "Signing in…" : "Sign in"}
+                            </Button>
+                        </form>
+                    </CardContent>
 
-                        {errorMessage && (
-                            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
-                        )}
-
-                        <button
-                            type="submit"
-                            disabled={mutation.isPending}
-                            className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white font-medium py-2.5 rounded-lg text-sm transition-colors"
-                        >
-                            {mutation.isPending ? 'Signing in…' : 'Sign in'}
-                        </button>
-                    </form>
-                </div>
-
-                <p className="text-center text-sm text-gray-500 mt-6">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-teal-600 font-medium hover:underline">
-                        Create one
-                    </Link>
-                </p>
+                    <CardFooter className="justify-center">
+                        <p className="text-sm text-muted-foreground">
+                            Don't have an account?{' '}
+                            <Link to="/register" className="text-teal-600 font-medium hover:underline">
+                                Create one
+                            </Link>
+                        </p>
+                    </CardFooter>
+                </Card>
             </div>
         </div>
     )
