@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -27,18 +27,19 @@ export function Navbar() {
         user?.email?.substring(0, 2).toUpperCase() ?? "PC";
 
     return (
-        <header className="border-b bg-background">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto flex h-16 items-center justify-between px-4">
                 <Link
-                    to="/dashboard"
+                    to="/"
                     className="text-xl font-bold text-primary"
                 >
                     PawCare
                 </Link>
 
                 <nav className="hidden items-center gap-2 md:flex">
-                    {navLinks.map(({ to, label }) => (
+                    {user && navLinks.map(({ to, label }) => (
                         <Link
+                            key={label}
                             to={to}
                             className={cn(
                                 "text-sm font-medium transition-colors hover:text-foreground",
@@ -53,27 +54,46 @@ export function Navbar() {
                 </nav>
 
                 <div className="flex items-center gap-3">
-                    <Separator
-                        orientation="vertical"
-                        className="hidden h-6 md:block"
-                    />
+                    {user ? (
+                        <>
+                            <Separator
+                                orientation="vertical"
+                                className="hidden h-6 md:block"
+                            />
 
-                    <Avatar className="h-9 w-9">
-                        <AvatarFallback>
-                            {initials}
-                        </AvatarFallback>
-                    </Avatar>
+                            <Avatar className="h-9 w-9">
+                                <AvatarFallback>
+                                    {initials}
+                                </AvatarFallback>
+                            </Avatar>
 
-                    <div className="hidden md:block text-sm text-muted-foreground">
-                        {user?.email}
-                    </div>
+                            <div className="hidden md:block text-sm text-muted-foreground">
+                                {user?.email}
+                            </div>
 
-                    <Button
-                        variant="outline"
-                        onClick={handleLogout}
-                    >
-                        Sign out
-                    </Button>
+                            <Button
+                                variant="outline"
+                                onClick={handleLogout}
+                            >
+                                Sign out
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/login"
+                                className={buttonVariants({ variant: "ghost" })}
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                to="/register"
+                                className={buttonVariants({ variant: "default" })}
+                            >
+                                Register
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>

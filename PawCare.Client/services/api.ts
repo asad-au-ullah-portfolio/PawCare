@@ -65,34 +65,4 @@ export const authApi = {
         api.post<AuthResponse>('/api/auth/login', data),
 }
 
-// ─── Appointments ─────────────────────────────────────────────────────────────
-
-export type AppointmentStatus = 'Scheduled' | 'Completed' | 'Cancelled'
-export type AppointmentType = 'InPerson' | 'Video'
-
-export interface Appointment {
-    id: number
-    petId: number
-    petName: string
-    veterinarianId: number
-    veterinarianName: string
-    scheduledAt: string
-    type: AppointmentType
-    status: AppointmentStatus
-    notes: string | null
-    consultationFee: number
-}
-
-export interface BookAppointmentRequest {
-    petId: number
-    veterinarianId: number
-    scheduledAt: string
-    type: AppointmentType
-    notes?: string
-}
-
-export const appointmentsApi = {
-    // GET /api/appointments/me — not /api/appointments
-    getAll: () => api.get<Appointment[]>('/api/appointments/me'),
-    book: (data: BookAppointmentRequest) => api.post<Appointment>('/api/appointments', data),
-}
+// Appointment types and API calls have moved to services/appointments.ts

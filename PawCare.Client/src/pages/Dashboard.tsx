@@ -141,7 +141,7 @@ export default function Dashboard() {
 
     const quickActions = [
         { icon: <PlusCircle className="w-4 h-4" />, label: 'Add Pet', to: '/pets/new' },
-        { icon: <Calendar className="w-4 h-4" />, label: 'Book Appointment', to: '/appointments/book' },
+        { icon: <Calendar className="w-4 h-4" />, label: 'Book Appointment', to: '/veterinarians' },
         { icon: <PawPrint className="w-4 h-4" />, label: 'View Pets', to: '/pets' },
         { icon: <Stethoscope className="w-4 h-4" />, label: 'Browse Veterinarians', to: '/veterinarians' },
     ]
@@ -164,7 +164,7 @@ export default function Dashboard() {
                         <PlusCircle className="w-4 h-4 mr-1.5" />
                         Add Pet
                     </Button>
-                    <Button size="sm" onClick={() => navigate('/appointments/book')}>
+                    <Button size="sm" onClick={() => navigate('/veterinarians')}>
                         <Calendar className="w-4 h-4 mr-1.5" />
                         Book Appointment
                     </Button>
@@ -231,7 +231,7 @@ export default function Dashboard() {
                                 variant="link"
                                 size="sm"
                                 className="mt-1 text-amber-600"
-                                onClick={() => navigate('/appointments/book')}
+                                onClick={() => navigate('/veterinarians')}
                             >
                                 Book one now
                             </Button>

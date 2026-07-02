@@ -29,14 +29,14 @@ export default function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            {/* Public */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route element={<Layout />}>
+              {/* Public */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-            {/* Protected */}
-            <Route element={<PrivateRoute />}>
-              <Route element={<Layout />}>
+              {/* Protected */}
+              <Route element={<PrivateRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 //#region Pets
                 <Route path="/pets" element={<Pets />} />
@@ -47,8 +47,8 @@ export default function App() {
                 <Route path="/book/:vetId" element={<BookAppointment />} />
                 <Route path="/appointments" element={<Appointments />} />
               </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

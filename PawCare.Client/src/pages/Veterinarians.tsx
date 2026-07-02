@@ -98,9 +98,7 @@ export default function Veterinarians() {
                             </div>
 
                             <button
-                                onClick={() =>
-                                    navigate(`/book-appointment?vetId=${vet.id}`)
-                                }
+                                onClick={() => navigate(`/book/${vet.id}`)}
                                 className="mt-auto w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-lg transition-colors"
                             >
                                 Book Appointment

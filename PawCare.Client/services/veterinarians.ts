@@ -29,7 +29,7 @@ export const veterinariansApi = {
         return response.data;
     },
     getById: async (id: number): Promise<VeterinarianResponse> => {
-        const response = await api.get<VeterinarianResponse>(`/veterinarians/${id}`);
+        const response = await api.get<VeterinarianResponse>(`/api/veterinarians/${id}`);
         return response.data;
     },
 };

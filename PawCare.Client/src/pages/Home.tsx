@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
     Calendar,
@@ -88,6 +89,7 @@ const testimonials = [
 
 export default function Home() {
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
     return (
         <div className="min-h-screen bg-white text-slate-900">
@@ -109,7 +111,7 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button size="lg" onClick={() => navigate('/register')} className="px-8">
+                    <Button size="lg" onClick={() => navigate(isAuthenticated ? '/veterinarians' : '/register')} className="px-8">
                         Book an Appointment
                     </Button>
                     <Button size="lg" variant="outline" onClick={() => navigate('/veterinarians')} className="px-8">
@@ -248,7 +250,7 @@ export default function Home() {
                     <p className="text-slate-500 mb-8 leading-relaxed">
                         Join PawCare today and schedule your first veterinary appointment in minutes.
                     </p>
-                    <Button size="lg" onClick={() => navigate('/register')} className="px-10">
+                    <Button size="lg" onClick={() => navigate(isAuthenticated ? '/veterinarians' : '/register')} className="px-10">
                         Get Started
                     </Button>
                 </div>
