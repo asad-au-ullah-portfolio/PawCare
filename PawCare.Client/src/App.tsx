@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './context/AuthContext'
 import { PrivateRoute } from './components/PrivateRoute'
 
-import { Home } from './pages/Home'
+import Home from './pages/Home'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Dashboard } from './pages/Dashboard'
@@ -34,16 +34,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Protected */}
-            {/* <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/pets" element={<Pets />} />
-              <Route path="/pets/new" element={<PetForm />} />
-              <Route path="/pets/:id/edit" element={<PetForm />} />
-              <Route path="/veterinarians" element={<Veterinarians />} />
-              <Route path="/book/:vetId" element={<BookAppointment />} />
-              <Route path="/appointments" element={<Appointments />} />
-            </Route> */}
+            {/* Protected */}            
             <Route element={<PrivateRoute />}>
               <Route element={<Layout />}>
                 <Route path="/dashboard" element={<Dashboard />} />

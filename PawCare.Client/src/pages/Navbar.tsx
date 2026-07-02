@@ -49,11 +49,6 @@ export function Navbar() {
                         >
                             {label}
                         </Link>
-                        // <Link to={to} key={to}>
-                        //     <Button variant="ghost">
-                        //         {label}
-                        //     </Button>
-                        // </Link>
                     ))}
                 </nav>
 

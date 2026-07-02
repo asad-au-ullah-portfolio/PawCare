@@ -94,8 +94,9 @@ export const petsApi = {
     getAll: () => api.get<Pet[]>('/api/pets'),
     getById: (id: number) => api.get<Pet>(`/api/pets/${id}`),
     create: (data: CreatePetRequest) => api.post<Pet>('/api/pets', data),
-    update: (id: number, data: UpdatePetRequest) => api.put<Pet>(`/api/pets/${id}`, data),
-    delete: (id: number) => api.delete(`/api/pets/${id}`),
+    // PUT returns 204 NoContent — no response body
+    update: (id: number, data: UpdatePetRequest) => api.put<void>(`/api/pets/${id}`, data),
+    delete: (id: number) => api.delete<void>(`/api/pets/${id}`),
 }
 
 // ─── Veterinarians ────────────────────────────────────────────────────────────
@@ -141,7 +142,7 @@ export interface BookAppointmentRequest {
 }
 
 export const appointmentsApi = {
-    getAll: () => api.get<Appointment[]>('/api/appointments'),
+    // GET /api/appointments/me — not /api/appointments
+    getAll: () => api.get<Appointment[]>('/api/appointments/me'),
     book: (data: BookAppointmentRequest) => api.post<Appointment>('/api/appointments', data),
-    cancel: (id: number) => api.patch(`/api/appointments/${id}/cancel`),
 }
