@@ -9,7 +9,7 @@ import { Register } from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Pets from './pages/Pets'
 import PetForm from './pages/PetForm'
-import { Veterinarians } from './pages/Veterinarians'
+import Veterinarians from './pages/Veterinarians'
 import { BookAppointment } from './pages/BookAppointment'
 import { Appointments } from './pages/Appointments'
 import { Layout } from "./pages/Layout";

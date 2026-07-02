@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 
-import { petsApi, SPECIES_OPTIONS, type PetPayload } from '../../services/petsApi'
+import { petsApi, SPECIES_OPTIONS, type PetPayload } from '../../services/pets'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

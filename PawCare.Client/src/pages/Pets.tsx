@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { PlusCircle, Pencil, Trash2, Weight, CalendarDays } from 'lucide-react'
 
-import { petsApi, getSpeciesOption, type PetResponse } from '../../services/petsApi'
+import { petsApi, getSpeciesOption, type PetResponse } from '../../services/pets'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
