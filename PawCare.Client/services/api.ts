@@ -67,37 +67,37 @@ export const authApi = {
 
 // ─── Pets ─────────────────────────────────────────────────────────────────────
 
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Other'
+// export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Other'
 
-export interface Pet {
-    id: number
-    name: string
-    species: Species
-    breed: string
-    dateOfBirth: string | null
-    ageInYears: number | null
-    notes: string | null
-}
+// export interface Pet {
+//     id: number
+//     name: string
+//     species: Species
+//     breed: string
+//     dateOfBirth: string | null
+//     ageInYears: number | null
+//     notes: string | null
+// }
 
-export interface CreatePetRequest {
-    name: string
-    species: Species
-    breed: string
-    dateOfBirth?: string
-    ageInYears?: number
-    notes?: string
-}
+// export interface CreatePetRequest {
+//     name: string
+//     species: Species
+//     breed: string
+//     dateOfBirth?: string
+//     ageInYears?: number
+//     notes?: string
+// }
 
-export interface UpdatePetRequest extends CreatePetRequest { }
+// export interface UpdatePetRequest extends CreatePetRequest { }
 
-export const petsApi = {
-    getAll: () => api.get<Pet[]>('/api/pets'),
-    getById: (id: number) => api.get<Pet>(`/api/pets/${id}`),
-    create: (data: CreatePetRequest) => api.post<Pet>('/api/pets', data),
-    // PUT returns 204 NoContent — no response body
-    update: (id: number, data: UpdatePetRequest) => api.put<void>(`/api/pets/${id}`, data),
-    delete: (id: number) => api.delete<void>(`/api/pets/${id}`),
-}
+// export const petsApi = {
+//     getAll: () => api.get<Pet[]>('/api/pets'),
+//     getById: (id: number) => api.get<Pet>(`/api/pets/${id}`),
+//     create: (data: CreatePetRequest) => api.post<Pet>('/api/pets', data),
+//     // PUT returns 204 NoContent — no response body
+//     update: (id: number, data: UpdatePetRequest) => api.put<void>(`/api/pets/${id}`, data),
+//     delete: (id: number) => api.delete<void>(`/api/pets/${id}`),
+// }
 
 // ─── Veterinarians ────────────────────────────────────────────────────────────
 
