@@ -123,15 +123,63 @@
 
 ## 📸 Screenshots
 
-> Add screenshots after deployment. Suggested captures:
+<table>
+  <tr>
+    <th colspan="3" align="center"><b>Home</b></th>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">
+      <img width="100%" alt="home-page" src="https://github.com/user-attachments/assets/137ec144-4ad9-408f-83d0-cadc45d8adfe" />
+    </td>
+  </tr>
 
-| Page | Page |
-|------|------|
-| Landing Page | Login |
-| Register | Dashboard |
-| My Pets | Add / Edit Pet |
-| Veterinarian Directory | Book Appointment |
-| My Appointments | — |
+  <tr>
+    <th colspan="1" align="center"><b>Register</b></th>
+    <th colspan="2" align="center"><b>Login</b></th>
+  </tr>
+  <tr>
+    <td colspan="1">
+      <img width="100%" alt="register-page" src="https://github.com/user-attachments/assets/2d51e4c1-7098-4166-a4cc-24d21664502c" />
+    </td>
+    <td colspan="2">
+      <img width="100%" alt="login-page" src="https://github.com/user-attachments/assets/23f1a128-592f-407c-8398-ef86bbe99195" />
+    </td>
+  </tr>
+
+  <tr>
+    <th align="center"><b>Dashboard</b></th>
+    <th align="center"><b>My Appointments</b></th>
+    <th align="center"><b>Veterinarian Directory</b></th>
+  </tr>
+  <tr>
+    <td>
+      <img width="100%" alt="dashboard-page" src="https://github.com/user-attachments/assets/ff068a6e-8823-4de8-a834-e4a7013d7ae6" />
+    </td>
+    <td>
+      <img width="100%" alt="my-appointments-page" src="https://github.com/user-attachments/assets/b422610c-e2e1-4647-90a3-0cb03d7ba954" />
+    </td>
+    <td>
+      <img width="100%" alt="veterinarian-directory-page" src="https://github.com/user-attachments/assets/8ea8301d-cf39-4a71-bd9b-874a59e8c959" />
+    </td>
+  </tr>
+
+  <tr>
+    <th align="center"><b>My Pets</b></th>
+    <th align="center"><b>Add Pet</b></th>
+    <th align="center"><b>Edit Pet</b></th>
+  </tr>
+  <tr>
+    <td>
+      <img width="100%" alt="my-pets-page" src="https://github.com/user-attachments/assets/fb12627b-a756-4b7a-beea-fa5b0b928b0c" />
+    </td>
+    <td>
+      <img width="100%" alt="add-pet-page" src="https://github.com/user-attachments/assets/f517cb7c-6d64-4326-91af-557044168f1f" />
+    </td>
+    <td>
+      <img width="100%" alt="edit-pet-page" src="https://github.com/user-attachments/assets/df19a060-12ab-49af-970d-1b4b3f867fed" />
+    </td>
+  </tr>
+</table>
 
 ---
 
