@@ -117,10 +117,8 @@
 
 ## 🎥 Demo
 
-> 📽 Add a GIF walkthrough here (Register → Login → Dashboard → Add Pet → Book Appointment).  
-> Recommended tools: [ScreenToGif](https://www.screentogif.com/) · [ShareX](https://getsharex.com/) · OBS + ffmpeg  
-> Recommended size: 1280 × 720
-
+<!-- walkthrough -->
+<video src="https://github.com/user-attachments/assets/dff6146a-b36b-4168-84a7-fd4e2056f51c" width="1280" height="720" controls></video>
 ---
 
 ## 📸 Screenshots
