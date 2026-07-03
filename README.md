@@ -502,7 +502,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 **Asadullah Ehsan**
 
-- LinkedIn: *https://www.linkedin.com/in/asadullahehsan/*
+- LinkedIn: [Asadullah Ehsan](https://www.linkedin.com/in/asadullahehsan/)
 - GitHub: [asad-au-ullah-portfolio](https://github.com/asad-au-ullah-portfolio)
 
 ---
