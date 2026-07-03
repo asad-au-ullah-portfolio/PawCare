@@ -185,20 +185,108 @@
 
 ## 🏗 Architecture
 
-```
-              React + TypeScript (Vite)
-                        │
-               React Router DOM
-                        │
-          Axios HTTP Client (typed, JWT interceptor)
-                        │
-        ASP.NET Core Minimal APIs (.NET 10)
-                        │
-         JWT Authentication & ASP.NET Identity
-                        │
-              Entity Framework Core (Npgsql)
-                        │
-                   PostgreSQL
+```mermaid
+flowchart TB
+
+%% =========================
+%% CLIENT LAYER
+%% =========================
+
+subgraph Client["Client Layer"]
+    User["👤 Pet Owner / Veterinarian"]
+    React["React 19<br/>TypeScript<br/>Vite<br/>Base UI"]
+    User --> React
+end
+
+%% =========================
+%% API LAYER
+%% =========================
+
+React -- HTTPS / REST API<br/>JWT Bearer --> API
+
+subgraph API["ASP.NET Core Web API"]
+    Controllers["Controllers"]
+
+    subgraph Services["Application Services"]
+        Auth["Authentication Service"]
+        Pet["Pet Service"]
+        Vet["Veterinarian Service"]
+        Appointment["Appointment Service"]
+    end
+
+    subgraph Business["Business Rules"]
+        Validation["Validation"]
+        Authorization["Authorization"]
+        Scheduling["Appointment Scheduling"]
+    end
+
+    Controllers --> Auth
+    Controllers --> Pet
+    Controllers --> Vet
+    Controllers --> Appointment
+
+    Pet --> Validation
+    Vet --> Validation
+    Appointment --> Scheduling
+    Auth --> Authorization
+end
+
+%% =========================
+%% DATA ACCESS
+%% =========================
+
+subgraph Data["Persistence Layer"]
+    EF["Entity Framework Core"]
+
+    SQL[("SQL Server")]
+
+    EF --> SQL
+end
+
+Pet --> EF
+Vet --> EF
+Appointment --> EF
+Auth --> EF
+
+%% =========================
+%% DATABASE
+%% =========================
+
+subgraph Database["Database Schema"]
+    Users["AspNetUsers"]
+    Roles["AspNetRoles"]
+    Owners["PetOwners"]
+    Vets["Veterinarians"]
+    Pets["Pets"]
+    Appointments["Appointments"]
+end
+
+SQL --> Users
+SQL --> Roles
+SQL --> Owners
+SQL --> Vets
+SQL --> Pets
+SQL --> Appointments
+
+%% =========================
+%% FUTURE INTEGRATIONS
+%% =========================
+
+subgraph Future["External Services (Future Roadmap)"]
+    Stripe["Stripe Payments"]
+    Jitsi["Jitsi Meet"]
+    Email["Email Notifications"]
+    Storage["Cloud Storage"]
+    Calendar["Calendar Integration"]
+    Monitoring["Logging & Monitoring"]
+end
+
+Appointment -. Future .-> Stripe
+Appointment -. Future .-> Jitsi
+Auth -. Future .-> Email
+Pet -. Future .-> Storage
+Appointment -. Future .-> Calendar
+API -. Telemetry .-> Monitoring
 ```
 
 ---
