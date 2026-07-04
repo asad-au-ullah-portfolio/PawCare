@@ -49,50 +49,11 @@
 
 ## ✨ Features
 
-<table>
-<tr>
-<td width="50%">
-
-### 🔒 Authentication & Authorization
-- JWT-based stateless authentication
-- ASP.NET Core Identity
-- Role-based authorization (Owner / Vet)
-- Secure login & registration
-- Protected routes on the frontend
-
-</td>
-<td width="50%">
-
-### 🐶 Pet Management
-- Add and manage multiple pets
-- Full CRUD with owner-scoped access
-- Species, breed, age, and weight tracking
-- Update and delete with confirmation
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 🏥 Veterinarian Directory
-- Browse available veterinarians
-- View specialties and experience
-- Consultation fee display
-- Clean, filterable listing
-
-</td>
-<td width="50%">
-
-### 📅 Appointment Booking
-- Book appointments with any veterinarian
-- Select from your registered pets
-- Future date validation
-- Appointment status tracking (Pending / Confirmed / Cancelled)
-
-</td>
-</tr>
-<tr>
-<td width="50%">
+| | |
+|---|---|
+| 🐶 **Pet Management**<br>Manage multiple pets with complete CRUD operations. | 📅 **Appointment Booking**<br>Book appointments with veterinarians and manage upcoming visits. |
+| 🔒 **Authentication**<br>Secure JWT authentication and role-based authorization. | 👩‍⚕️ **Veterinarian Directory**<br>Browse available veterinarians with specialties and consultation fees. |
+| 📋 **Appointment Management**<br>View scheduled appointments and their status. | 📱 **Responsive UI**<br>Modern interface built with React and Tailwind CSS. |
 
 ### 📊 Dashboard
 - Personalized overview on login
