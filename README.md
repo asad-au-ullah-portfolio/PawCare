@@ -51,9 +51,9 @@
 
 | | |
 |---|---|
-| 🐶 **Pet Management**<br>Manage multiple pets with complete CRUD operations. | 📅 **Appointment Booking**<br>Book appointments with veterinarians and manage upcoming visits. |
-| 🔒 **Authentication**<br>Secure JWT authentication and role-based authorization. | 👩‍⚕️ **Veterinarian Directory**<br>Browse available veterinarians with specialties and consultation fees. |
-| 📋 **Appointment Management**<br>View scheduled appointments and their status. | 📱 **Responsive UI**<br>Modern interface built with React and Tailwind CSS. |
+| 🐶 **Pet Management** — Manage multiple pets with full CRUD operations. | 📅 **Appointment Booking** — Schedule appointments with veterinarians. |
+| 🔒 **JWT Authentication** — Secure authentication and role-based authorization. | 👩‍⚕️ **Veterinarian Directory** — Browse available veterinarians by specialty. |
+| 📋 **Appointment Tracking** — View and manage upcoming appointments. | 📱 Responsive Design — Optimized for desktop and mobile devices. |
 
 ---
 
