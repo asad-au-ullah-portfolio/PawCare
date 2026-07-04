@@ -55,25 +55,6 @@
 | 🔒 **Authentication**<br>Secure JWT authentication and role-based authorization. | 👩‍⚕️ **Veterinarian Directory**<br>Browse available veterinarians with specialties and consultation fees. |
 | 📋 **Appointment Management**<br>View scheduled appointments and their status. | 📱 **Responsive UI**<br>Modern interface built with React and Tailwind CSS. |
 
-### 📊 Dashboard
-- Personalized overview on login
-- Upcoming appointment summary
-- Registered pet summary
-- Quick-access navigation
-
-</td>
-<td width="50%">
-
-### 🛡 Security
-- Passwords hashed via ASP.NET Identity
-- JWT expiry and bearer validation
-- Server-side ownership checks on all data
-- Input validation via FluentValidation
-
-</td>
-</tr>
-</table>
-
 ---
 
 ## 🎥 Demo
