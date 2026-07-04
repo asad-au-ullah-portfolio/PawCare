@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { ArrowLeft, Loader2, Stethoscope, AlertCircle } from 'lucide-react'
 
-import { appointmentsApi, REASON_OPTIONS, type CreateAppointmentPayload } from '../../services/appointments'
+import { appointmentsApi, REASON_OPTIONS, type AppointmentReasonValue, type CreateAppointmentPayload } from '../../services/appointments'
 import { petsApi, getSpeciesOption } from '../../services/pets'
 import { veterinariansApi, SPECIALTY_LABELS } from '../../services/veterinarians'
 import { Button } from '@/components/ui/button'
@@ -151,7 +151,7 @@ export function BookAppointment() {
             petId: values.petId,
             veterinarianId: vetIdNum!,
             scheduledAt,
-            reason: values.reason,
+            reason: values.reason as AppointmentReasonValue,
             durationMinutes: values.durationMinutes,
         })
     }
