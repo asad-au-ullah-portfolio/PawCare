@@ -1,0 +1,18 @@
+services:
+  pawcare.server:
+    image: ${DOCKER_REGISTRY-}pawcareserver
+
+    build:
+      context: .
+      dockerfile: PawCare.Server/Dockerfile
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+
+      ConnectionStrings__DefaultConnection: ${DB_CONNECTION}
+      Cors__AllowedOrigins__0: ${CORS_ORIGIN}
+      UseHttpsRedirection: false

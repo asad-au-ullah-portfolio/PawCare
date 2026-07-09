@@ -11,7 +11,8 @@ export const removeToken = (): void => localStorage.removeItem(TOKEN_KEY)
 // ─── Axios instance ───────────────────────────────────────────────────────────
 
 export const api = axios.create({
-    baseURL: 'https://localhost:7228',
+    baseURL: import.meta.env.VITE_API_BASE_URL,
+    withCredentials: false,
     headers: { 'Content-Type': 'application/json' },
 })
 

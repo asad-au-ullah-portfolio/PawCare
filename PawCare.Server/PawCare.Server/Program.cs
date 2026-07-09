@@ -46,7 +46,7 @@ builder.Services.AddOpenApi();
 #region DB Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<PawCareDbContext>(options =>
-    options.UseNpgsql(connectionString)); 
+    options.UseNpgsql(connectionString));
 #endregion
 
 builder.Services.AddDataProtection();
@@ -125,7 +125,10 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.UseHttpsRedirection();
+if (builder.Configuration.GetValue<bool>("UseHttpsRedirection"))
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors(PawCareCorsPolicy);
 
