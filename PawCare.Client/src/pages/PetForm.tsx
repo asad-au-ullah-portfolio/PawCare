@@ -264,7 +264,18 @@ export default function PetForm() {
                                             disabled={isBusy}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select species" />
+                                                <SelectValue placeholder="Select species">
+                                                    {(value) => {
+                                                        const selected = SPECIES_OPTIONS.find(s => s.value.toString() === value);
+                                                        return selected ? (
+                                                            <span className="flex items-center gap-1.5">
+                                                                {selected.emoji} {selected.label}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-muted-foreground">Select species</span>
+                                                        );
+                                                    }}
+                                                </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {SPECIES_OPTIONS.map((s) => (

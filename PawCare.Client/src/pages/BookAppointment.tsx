@@ -246,7 +246,20 @@ export function BookAppointment() {
                                             disabled={isBusy}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a pet" />
+                                                <SelectValue placeholder="Select a pet">
+                                                    {(value) => {
+                                                        const selectedPet = pets.find(p => p.id.toString() === value);
+                                                        if (selectedPet) {
+                                                            const species = getSpeciesOption(selectedPet.species);
+                                                            return (
+                                                                <span className="flex items-center gap-1.5">
+                                                                    {species.emoji} {selectedPet.name}
+                                                                </span>
+                                                            );
+                                                        }
+                                                        return <span className="text-muted-foreground">Select a pet</span>;
+                                                    }}
+                                                </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {pets.map((pet) => {
@@ -294,7 +307,12 @@ export function BookAppointment() {
                                             disabled={isBusy}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a reason" />
+                                                <SelectValue placeholder="Select a reason">
+                                                    {(value) => {
+                                                        const selected = REASON_OPTIONS.find(r => r.value.toString() === value);
+                                                        return selected ? selected.label : <span className="text-muted-foreground">Select a reason</span>;
+                                                    }}
+                                                </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {REASON_OPTIONS.map((r) => (
@@ -320,7 +338,9 @@ export function BookAppointment() {
                                             disabled={isBusy}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue />
+                                                <SelectValue>
+                                                    {(value) => value ? `${value} minutes` : ''}
+                                                </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {[15, 30, 45, 60].map((d) => (
