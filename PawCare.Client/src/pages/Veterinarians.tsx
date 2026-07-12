@@ -24,10 +24,12 @@ export default function Veterinarians() {
     const [specialty, setSpecialty] = useState<VeterinarianSpecialty | ''>('');
 
     const { data: vets, isLoading, isError } = useQuery({
-        queryKey: ['veterinarians', specialty],
+        queryKey: ['veterinarians'],
         queryFn: () =>
             veterinariansApi.getAll(),
     });
+
+    const filteredVets = vets?.filter(vet => specialty === '' || vet.specialty === specialty);
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-8">
@@ -66,15 +68,15 @@ export default function Veterinarians() {
                 </div>
             )}
 
-            {vets && vets.length === 0 && (
+            {filteredVets && filteredVets.length === 0 && (
                 <div className="text-center py-20 text-gray-400">
                     No veterinarians found for this specialty.
                 </div>
             )}
 
-            {vets && vets.length > 0 && (
+            {filteredVets && filteredVets.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {vets.map(vet => (
+                    {filteredVets.map(vet => (
                         <div
                             key={vet.id}
                             className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow"
