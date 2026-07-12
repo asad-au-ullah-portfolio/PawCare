@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/context/AuthContext'
 import { useQuery } from '@tanstack/react-query'
 import { Calendar, Clock, PlusCircle, Stethoscope } from 'lucide-react'
 
@@ -165,13 +166,15 @@ const UPCOMING_STATUSES: AppointmentStatusValue[] = [
 
 export function Appointments() {
     const navigate = useNavigate()
+    const { user } = useAuth()
 
     const { data: appointments, isLoading, isError } = useQuery({
-        queryKey: ['appointments'],
+        queryKey: ['appointments', user?.id],
         queryFn: async () => {
             const res = await appointmentsApi.getAll()
             return res.data
         },
+        enabled: !!user?.id,
     })
 
     const upcoming = appointments?.filter((a) => UPCOMING_STATUSES.includes(a.status)) ?? []

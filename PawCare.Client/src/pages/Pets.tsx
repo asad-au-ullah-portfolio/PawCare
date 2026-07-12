@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '@/context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -146,24 +147,26 @@ function PetCard({
 
 export default function Pets() {
     const navigate = useNavigate()
+    const { user } = useAuth()
     const queryClient = useQueryClient()
 
     const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null)
 
     // Fetch
     const { data: pets, isLoading, isError } = useQuery({
-        queryKey: ['pets'],
+        queryKey: ['pets', user?.id],
         queryFn: async () => {
             const res = await petsApi.getAll()
             return res.data
         },
+        enabled: !!user?.id,
     })
 
     // Delete mutation
     const deleteMutation = useMutation({
         mutationFn: (id: number) => petsApi.remove(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['pets'] })
+            queryClient.invalidateQueries({ queryKey: ['pets', user?.id] })
             toast.success('Pet removed successfully.')
             setPendingDeleteId(null)
         },

@@ -1,5 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+import { useQuery } from '@tanstack/react-query'
+import { petsApi } from '../../services/pets'
+import { appointmentsApi, AppointmentStatus, type AppointmentResponse } from '../../services/appointments'
+import { veterinariansApi } from '../../services/veterinarians'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -26,23 +30,34 @@ interface Appointment {
     status: 'upcoming' | 'completed'
 }
 
-// ─── Mock data (replace with API calls once endpoints are wired) ──────────────
+// ─── Formatting helpers ────────────────────────────────────────────────────────
 
-const MOCK_APPOINTMENTS: Appointment[] = [
-    {
-        id: 1,
-        petName: 'Bella',
-        vetName: 'Dr. Sarah Ahmed',
-        dateLabel: 'Tomorrow',
-        time: '3:00 PM',
-        status: 'upcoming',
-    },
-]
+function formatAppointment(appt: AppointmentResponse): Appointment {
+    const date = new Date(appt.scheduledAt)
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    let dateLabel = date.toLocaleDateString()
+    if (date.toDateString() === today.toDateString()) {
+        dateLabel = 'Today'
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+        dateLabel = 'Tomorrow'
+    }
+    
+    const time = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+    const isUpcoming = appt.status === AppointmentStatus.Scheduled || 
+                       appt.status === AppointmentStatus.Confirmed || 
+                       appt.status === AppointmentStatus.InProgress
 
-const MOCK_STATS = {
-    pets: 3,
-    upcoming: 2,
-    veterinarians: 5,
+    return {
+        id: appt.id,
+        petName: appt.petName,
+        vetName: `Dr. ${appt.veterinarianFirstName} ${appt.veterinarianLastName}`,
+        dateLabel,
+        time,
+        status: isUpcoming ? 'upcoming' : 'completed',
+    }
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -134,10 +149,42 @@ export default function Dashboard() {
     const emailPrefix = user?.email.split('@')[0] ?? 'there'
     const displayName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1)
 
-    // TODO: replace with real data from usePets() and useAppointments() hooks
-    const stats = MOCK_STATS
-    const appointments = MOCK_APPOINTMENTS
-    const hasActivity = stats.pets > 0
+    const { data: petsData } = useQuery({
+        queryKey: ['pets', user?.id],
+        queryFn: async () => {
+            const res = await petsApi.getAll()
+            return res.data
+        },
+        enabled: !!user?.id,
+    })
+
+    const { data: vetsData } = useQuery({
+        queryKey: ['veterinarians'],
+        queryFn: async () => await veterinariansApi.getAll()
+    })
+
+    const { data: apptsData } = useQuery({
+        queryKey: ['appointments', user?.id],
+        queryFn: async () => {
+            const res = await appointmentsApi.getAll()
+            return res.data
+        },
+        enabled: !!user?.id,
+    })
+
+    const stats = {
+        pets: petsData?.length || 0,
+        upcoming: apptsData?.filter(a => a.status === AppointmentStatus.Scheduled || a.status === AppointmentStatus.Confirmed).length || 0,
+        veterinarians: vetsData?.length || 0,
+    }
+
+    const appointments = (apptsData || [])
+        .filter(a => a.status === AppointmentStatus.Scheduled || a.status === AppointmentStatus.Confirmed)
+        .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+        .slice(0, 3)
+        .map(formatAppointment)
+
+    const hasActivity = (petsData?.length || 0) > 0
 
     const quickActions = [
         { icon: <PlusCircle className="w-4 h-4" />, label: 'Add Pet', to: '/pets/new' },

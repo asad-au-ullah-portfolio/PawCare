@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 const navLinks = [
     { to: "/dashboard", label: "Dashboard" },
@@ -17,9 +18,11 @@ export function Navbar() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const queryClient = useQueryClient();
 
     const handleLogout = () => {
         logout();
+        queryClient.clear();
         navigate("/login");
     };
 

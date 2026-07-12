@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useAuth } from '@/context/AuthContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -120,15 +121,16 @@ export default function PetForm() {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
+    const { user } = useAuth()
 
     // ── Fetch existing pet (edit mode only) ────────────────────────────────────
     const { data: existingPet, isLoading: isFetching } = useQuery({
-        queryKey: ['pets', petId],
+        queryKey: ['pets', user?.id, petId],
         queryFn: async () => {
             const res = await petsApi.getOne(petId!)
             return res.data
         },
-        enabled: isEdit && !!petId,
+        enabled: isEdit && !!petId && !!user?.id,
     })
 
     // ── Form ───────────────────────────────────────────────────────────────────
@@ -174,7 +176,7 @@ export default function PetForm() {
     const createMutation = useMutation({
         mutationFn: (payload: PetPayload) => petsApi.create(payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['pets'] })
+            queryClient.invalidateQueries({ queryKey: ['pets', user?.id] })
             toast.success('Pet added successfully.')
             navigate('/pets')
         },
@@ -186,8 +188,8 @@ export default function PetForm() {
     const updateMutation = useMutation({
         mutationFn: (payload: PetPayload) => petsApi.update(petId!, payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['pets'] })
-            queryClient.invalidateQueries({ queryKey: ['pets', petId] })
+            queryClient.invalidateQueries({ queryKey: ['pets', user?.id] })
+            queryClient.invalidateQueries({ queryKey: ['pets', user?.id, petId] })
             toast.success('Pet updated successfully.')
             navigate('/pets')
         },

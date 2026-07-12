@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useAuth } from '@/context/AuthContext'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -88,6 +89,7 @@ export function BookAppointment() {
     const { vetId } = useParams<{ vetId: string }>()
     const navigate = useNavigate()
     const queryClient = useQueryClient()
+    const { user } = useAuth()
 
     const vetIdNum = vetId ? parseInt(vetId, 10) : undefined
 
@@ -100,11 +102,12 @@ export function BookAppointment() {
 
     // ── Fetch user's pets ──────────────────────────────────────────────────────
     const { data: pets, isLoading: isPetsLoading } = useQuery({
-        queryKey: ['pets'],
+        queryKey: ['pets', user?.id],
         queryFn: async () => {
             const res = await petsApi.getAll()
             return res.data
         },
+        enabled: !!user?.id,
     })
 
     const hasPets = pets && pets.length > 0
@@ -130,7 +133,7 @@ export function BookAppointment() {
     const bookMutation = useMutation({
         mutationFn: (payload: CreateAppointmentPayload) => appointmentsApi.create(payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['appointments'] })
+            queryClient.invalidateQueries({ queryKey: ['appointments', user?.id] })
             toast.success('Appointment booked successfully.')
             navigate('/appointments')
         },

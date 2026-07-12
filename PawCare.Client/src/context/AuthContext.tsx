@@ -4,6 +4,7 @@ import { authApi, getToken, setToken, removeToken, type LoginRequest, type Regis
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface AuthUser {
+    id: string
     email: string
     role: string
 }
@@ -30,6 +31,7 @@ function decodeUser(token: string): AuthUser | null {
     try {
         const payload = JSON.parse(atob(token.split('.')[1]))
         return {
+            id: payload.sub ?? '',
             email: payload.email ?? '',
             role: payload.role ?? '',
         }
