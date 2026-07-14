@@ -59,7 +59,7 @@
 ## 🎥 Demo
 
 <!-- walkthrough -->
-<video src="https://github.com/user-attachments/assets/dff6146a-b36b-4168-84a7-fd4e2056f51c" width="1280" height="720" controls></video>
+<video src="https://github.com/user-attachments/assets/d22687e8-7a50-4269-9bfe-6fb87846644d" width="1280" height="720" controls></video>
 ---
 
 ## 📸 Screenshots
