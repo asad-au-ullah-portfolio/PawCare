@@ -2,9 +2,9 @@
 
 # 🐾 PawCare
 
-### Production-style Veterinary Appointment Management Platform
+### Full-Stack Veterinary Appointment Management Platform
 
-**ASP.NET Core &nbsp;•&nbsp; React &nbsp;•&nbsp; TypeScript &nbsp;•&nbsp; PostgreSQL &nbsp;•&nbsp; JWT**
+**ASP.NET Core &nbsp;•&nbsp; React &nbsp;•&nbsp; TypeScript**
 
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev/)
@@ -17,12 +17,11 @@
 <br/>
 
 > PawCare is a full-stack web application that enables pet owners to register, manage their pets,  
-> and book appointments with veterinarians through a clean and responsive interface.  
-> Built as a portfolio project to demonstrate production-grade full-stack engineering practices.
+> and book appointments with veterinarians through a clean and responsive interface.
 
 <br/>
 
-[Live Demo](#) &nbsp;•&nbsp; [API](#) &nbsp;•&nbsp; [Report Bug](#) &nbsp;•&nbsp; [Request Feature](#)
+[Live Demo](https://paw-care-vet.vercel.app) &nbsp;•&nbsp; [API](https://pawcare-ecf0.onrender.com) &nbsp;•&nbsp; [Report Bug](#) &nbsp;•&nbsp; [Request Feature](#)
 
 </div>
 
@@ -147,25 +146,18 @@ end
 React -- HTTPS / REST API<br/>JWT Bearer --> API
 
 subgraph API["ASP.NET Core Web API"]
-    Controllers["Controllers"]
-
-    subgraph Services["Application Services"]
-        Auth["Authentication Service"]
-        Pet["Pet Service"]
-        Vet["Veterinarian Service"]
-        Appointment["Appointment Service"]
+    subgraph Endpoints["Minimal API Endpoints"]
+        Auth["Auth Endpoints"]
+        Pet["Pet Endpoints"]
+        Vet["Veterinarian Endpoints"]
+        Appointment["Appointment Endpoints"]
     end
 
     subgraph Business["Business Rules"]
-        Validation["Validation"]
-        Authorization["Authorization"]
+        Validation["FluentValidation"]
+        Authorization["JWT Authorization"]
         Scheduling["Appointment Scheduling"]
     end
-
-    Controllers --> Auth
-    Controllers --> Pet
-    Controllers --> Vet
-    Controllers --> Appointment
 
     Pet --> Validation
     Vet --> Validation
@@ -180,7 +172,7 @@ end
 subgraph Data["Persistence Layer"]
     EF["Entity Framework Core"]
 
-    SQL[("SQL Server")]
+    SQL[("PostgreSQL")]
 
     EF --> SQL
 end
@@ -260,6 +252,8 @@ API -. Telemetry .-> Monitoring
 | Npgsql | PostgreSQL driver |
 | JWT Bearer Auth | Stateless authentication |
 | FluentValidation | Request input validation |
+| Docker | Containerization |
+| OpenAPI / Swagger | API documentation |
 
 ### Development Tools
 
@@ -347,28 +341,61 @@ Update `appsettings.json` with your values:
 
 ---
 
+## 🌍 Deployment
+
+| Layer | Platform |
+|---|---|
+| Frontend | [Vercel](https://vercel.com/) |
+| Backend | [Render](https://render.com/) |
+| Database | [Neon PostgreSQL](https://neon.tech/) |
+
+**Live URLs**
+
+| | URL |
+|---|---|
+| Frontend | https://paw-care-coral.vercel.app |
+| Backend API | https://pawcare-ecf0.onrender.com |
+
+---
+
+## 💡 Engineering Highlights
+
+- Stateless JWT authentication with role-based authorization
+- Ownership-scoped data access (pet owners see only their own data)
+- Feature-folder backend architecture for clarity and maintainability
+- Typed API client with Axios JWT interceptor and automatic token handling
+- Server state management with TanStack Query (caching, invalidation, loading states)
+- Form validation with React Hook Form + Zod schema definitions
+- Responsive UI built with Tailwind CSS v4 and shadcn/ui
+- PostgreSQL relational schema with EF Core migrations
+- Cloud deployment with Vercel (frontend) and Render (backend)
+
+---
+
 ## 📂 Project Structure
 
 ```
 PawCare/
 │
-├── backend/
+├── PawCare.Server/
 │   ├── Features/
-│   │   ├── Auth/
-│   │   ├── Pets/
-│   │   ├── Appointments/
-│   │   └── Veterinarians/
-│   ├── Entities/
-│   ├── Persistence/
+│   │   ├── Auth/            # Register, Login endpoints & DTOs
+│   │   ├── Pets/            # Pet CRUD endpoints & DTOs
+│   │   ├── Appointments/    # Booking & appointment history
+│   │   └── Veterinarians/   # Veterinarian listing
+│   ├── Entities/            # Domain entities (Pet, Appointment, etc.)
+│   ├── Persistence/         # DbContext, seeders, EF configuration
+│   ├── Infrastructure/      # Cross-cutting concerns
+│   ├── Validators/          # FluentValidation validators
 │   └── Migrations/
 │
-├── frontend/
+├── PawCare.Client/
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   └── lib/
+│   │   ├── components/      # Shared UI components
+│   │   ├── pages/           # Route-level page components
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── services/        # Axios API client & typed service calls
+│   │   └── lib/             # Utilities, constants, Zod schemas
 │   └── public/
 │
 └── README.md
@@ -401,8 +428,8 @@ View My Appointments
 ## 🛣 Roadmap
 
 ### v1.1 — Infrastructure
-- [ ] Docker & Docker Compose
-- [ ] Cloud deployment (Vercel + Render)
+- [x] Docker & Docker Compose
+- [x] Cloud deployment (Vercel + Render)
 - [ ] CI/CD with GitHub Actions
 - [ ] Structured logging (Serilog + Seq)
 
@@ -410,6 +437,7 @@ View My Appointments
 - [ ] Integration tests
 - [ ] OpenTelemetry + Grafana
 - [ ] Health checks & response caching
+- [ ] API rate limiting
 - [ ] API documentation (Swagger)
 
 ### v2.0 — Features
