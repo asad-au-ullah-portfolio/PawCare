@@ -21,19 +21,21 @@ import axios from 'axios'
 
 import { useForm } from "react-hook-form";
 import { FormInput } from "@/components/form/FormInput";
-
+import { PasswordInput } from "@/components/form/PasswordInput";
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
 const schema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    email: z.string().email('Enter a valid email'),
+    email: z.email('Enter a valid email'),
     password: z
         .string()
         .min(8, 'Password must be at least 8 characters')
         .regex(/[A-Z]/, 'Must contain an uppercase letter')
-        .regex(/[0-9]/, 'Must contain a number'),
+        .regex(/[a-z]/, 'Must contain a lowercase letter')
+        .regex(/[0-9]/, 'Must contain a number')
+        .regex(/[^a-zA-Z0-9]/, 'Must contain a special character'),
 })
 
 type FormData = z.infer<typeof schema>
@@ -90,92 +92,6 @@ export function Register() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
-                            {/* <FieldGroup>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <Controller
-                                        control={form.control}
-                                        name="firstName"
-                                        render={({ field, fieldState }) => (
-                                            <Field>
-                                                <FieldLabel>First name</FieldLabel>
-
-                                                <Input
-                                                    {...field}
-                                                    placeholder="Jane"
-                                                    autoComplete="given-name"
-                                                />
-
-                                                {fieldState.error && (
-                                                    <FieldError errors={[fieldState.error]} />
-                                                )}
-                                            </Field>
-                                        )}
-                                    />
-
-                                    <Controller
-                                        control={form.control}
-                                        name="lastName"
-                                        render={({ field, fieldState }) => (
-                                            <Field>
-                                                <FieldLabel>Last name</FieldLabel>
-
-                                                <Input
-                                                    {...field}
-                                                    placeholder="Smith"
-                                                    autoComplete="family-name"
-                                                />
-
-                                                {fieldState.error && (
-                                                    <FieldError errors={[fieldState.error]} />
-                                                )}
-                                            </Field>
-                                        )}
-                                    />
-                                </div>
-
-                                <Controller
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field, fieldState }) => (
-                                        <Field>
-                                            <FieldLabel>Email</FieldLabel>
-
-                                            <Input
-                                                {...field}
-                                                type="email"
-                                                autoComplete="email"
-                                                placeholder="you@example.com"
-                                            />
-
-                                            {fieldState.error && (
-                                                <FieldError errors={[fieldState.error]} />
-                                            )}
-                                        </Field>
-                                    )}
-                                />
-
-                                <Controller
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field, fieldState }) => (
-                                        <Field>
-                                            <FieldLabel>Password</FieldLabel>
-
-                                            <Input
-                                                {...field}
-                                                type="password"
-                                                autoComplete="new-password"
-                                                placeholder="••••••••"
-                                            />
-
-                                            {fieldState.error && (
-                                                <FieldError errors={[fieldState.error]} />
-                                            )}
-                                        </Field>
-                                    )}
-                                />
-                            </FieldGroup> */}
-
                             <FieldGroup>
                                 <div className="grid grid-cols-2 gap-4">
                                     <FormInput
@@ -204,13 +120,10 @@ export function Register() {
                                     autoComplete="email"
                                 />
 
-                                <FormInput
+                                <PasswordInput
                                     control={form.control}
                                     name="password"
                                     label="Password"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    autoComplete="new-password"
                                 />
                             </FieldGroup>
 
