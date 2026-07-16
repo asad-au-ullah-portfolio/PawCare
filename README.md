@@ -23,6 +23,16 @@
 
 [Live Demo](https://paw-care-vet.vercel.app) &nbsp;•&nbsp; [API](https://pawcare-ecf0.onrender.com) &nbsp;•&nbsp; [Report Bug](#) &nbsp;•&nbsp; [Request Feature](#)
 
+
+## Demo Environment Notice
+
+This application is hosted using free-tier cloud services (Render, Vercel, and Neon). As a result, the backend service may enter a sleep state after periods of inactivity.
+
+The first request after inactivity may take approximately 30–60 seconds while the API wakes up. Subsequent requests should respond normally.
+
+This behavior is related to hosting limitations and does not reflect the application's production performance characteristics.
+
+
 </div>
 
 ---

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import {
     Stethoscope,
     CheckCircle,
     Star,
+    X,
 } from 'lucide-react';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -90,9 +92,29 @@ const testimonials = [
 export default function Home() {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const [showDemoNotice, setShowDemoNotice] = useState(true);
 
     return (
         <div className="min-h-screen bg-white text-slate-900">
+
+            {/* ── Demo Notice Banner ─────────────────────────────────────────── */}
+            {showDemoNotice && (
+                <div className="bg-amber-100 px-4 py-3 border-b border-amber-200">
+                    <div className="max-w-3xl mx-auto flex items-start sm:items-center justify-between gap-4">
+                        <p className="text-sm text-amber-900 leading-relaxed">
+                            <span className="mr-1">🚧</span>
+                            <strong>Demo Notice:</strong> The backend runs on free hosting and may require up to 60 seconds to wake up after inactivity.
+                        </p>
+                        <button
+                            onClick={() => setShowDemoNotice(false)}
+                            className="p-1 rounded-md text-amber-700 hover:bg-amber-200/50 transition-colors shrink-0"
+                            aria-label="Dismiss notice"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* ── Hero ─────────────────────────────────────────────────────────── */}
             <section className="px-6 py-24 md:py-32 text-center max-w-3xl mx-auto">
