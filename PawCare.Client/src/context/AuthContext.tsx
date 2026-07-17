@@ -7,6 +7,8 @@ interface AuthUser {
     id: string
     email: string
     role: string
+    givenName: string
+    familyName: string
 }
 
 interface AuthContextValue {
@@ -34,6 +36,8 @@ function decodeUser(token: string): AuthUser | null {
             id: payload.sub ?? '',
             email: payload.email ?? '',
             role: payload.role ?? '',
+            givenName: payload.given_name ?? '',
+            familyName: payload.family_name ?? '',
         }
     } catch {
         return null

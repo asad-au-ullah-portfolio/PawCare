@@ -37,18 +37,18 @@ function formatAppointment(appt: AppointmentResponse): Appointment {
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
-    
+
     let dateLabel = date.toLocaleDateString()
     if (date.toDateString() === today.toDateString()) {
         dateLabel = 'Today'
     } else if (date.toDateString() === tomorrow.toDateString()) {
         dateLabel = 'Tomorrow'
     }
-    
+
     const time = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-    const isUpcoming = appt.status === AppointmentStatus.Scheduled || 
-                       appt.status === AppointmentStatus.Confirmed || 
-                       appt.status === AppointmentStatus.InProgress
+    const isUpcoming = appt.status === AppointmentStatus.Scheduled ||
+        appt.status === AppointmentStatus.Confirmed ||
+        appt.status === AppointmentStatus.InProgress
 
     return {
         id: appt.id,
@@ -145,9 +145,9 @@ export default function Dashboard() {
     const { user } = useAuth()
     const navigate = useNavigate()
 
-    // Derive a friendly display name from the email prefix
-    const emailPrefix = user?.email.split('@')[0] ?? 'there'
-    const displayName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1)
+    // Derive a friendly display name from the user's name
+    
+    const displayName = user?.givenName?.trim() || 'there'
 
     const { data: petsData } = useQuery({
         queryKey: ['pets', user?.id],

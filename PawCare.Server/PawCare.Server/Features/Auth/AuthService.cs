@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PawCare.Server.Entities;
 using PawCare.Server.Persistence;
 
@@ -54,9 +55,16 @@ public sealed class AuthService(
 
     public async Task<AuthResult> LoginAsync(LoginRequest request)
     {
-        var user = await userManager.FindByEmailAsync(request.Email);
-        if (user is null || !await userManager.CheckPasswordAsync(user, request.Password))
+        var user = await db.Users
+                    .Include(x => x.PetOwner)
+                    .Include(x => x.Veterinarian)
+                    .SingleOrDefaultAsync(x => x.Email == request.Email);
+
+        if (user is null ||
+            !await userManager.CheckPasswordAsync(user, request.Password))
+        {
             return Fail("Invalid email or password.");
+        }
 
         var roles = await userManager.GetRolesAsync(user);
         var role = roles.FirstOrDefault() ?? Roles.PetOwner;

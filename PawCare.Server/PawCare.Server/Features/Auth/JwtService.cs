@@ -17,10 +17,15 @@ public sealed class JwtService(IOptions<JwtOptions> options) : IJwtService
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expiresAt = DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes);
 
+        var FirstName = user.PetOwner?.FirstName ?? user.Veterinarian?.FirstName;
+        var LastName = user.PetOwner?.LastName ?? user.Veterinarian?.LastName;
+
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub,   user.Id),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new Claim(JwtRegisteredClaimNames.GivenName, FirstName ?? string.Empty),
+            new Claim(JwtRegisteredClaimNames.FamilyName, LastName ?? string.Empty),
             new Claim(JwtRegisteredClaimNames.Jti,   Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.Role,               role),
         };
