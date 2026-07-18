@@ -8,7 +8,9 @@ public sealed class UpdatePetRequestValidator : AbstractValidator<UpdatePetReque
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(100)
+            .Matches(@"^[a-zA-Z\s-]+$")
+            .WithMessage("Name can only contain letters, spaces, and hyphens.");
 
         RuleFor(x => x.Breed)
             .NotEmpty()

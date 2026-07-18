@@ -27,7 +27,10 @@ import {
 
 const petSchema = z
     .object({
-        name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or fewer'),
+        name: z.string()
+            .min(1, 'Name is required')
+            .max(100, 'Name must be 100 characters or fewer')
+            .regex(/^[a-zA-Z\s-]+$/, 'Name can only contain letters, spaces, and hyphens'),
         species: z.coerce.number().int().min(1).max(5, 'Please select a species'),
         breed: z.string()
             .min(1, 'Breed is required')
@@ -146,6 +149,7 @@ export default function PetForm() {
         handleSubmit,
         watch,
         reset,
+        setError,
         formState: { errors, isSubmitting },
     } = useForm<PetFormInput, any, PetFormValues>({
         resolver: zodResolver(petSchema),
@@ -178,6 +182,33 @@ export default function PetForm() {
 
     const ageMode = watch('ageMode')
 
+    const handleApiError = (err: any) => {
+        if (err.response?.status === 400 && err.response?.data?.errors) {
+            const validationErrors = err.response.data.errors;
+            let hasFieldErrors = false;
+            
+            Object.keys(validationErrors).forEach((key) => {
+                const formKey = key.charAt(0).toLowerCase() + key.slice(1);
+                
+                if (['name', 'species', 'breed', 'ageMode', 'dateOfBirth', 'ageInYears', 'weight'].includes(formKey)) {
+                    setError(formKey as keyof PetFormValues, {
+                        type: 'server',
+                        message: validationErrors[key].join(' ')
+                    });
+                    hasFieldErrors = true;
+                } else {
+                    toast.error(validationErrors[key].join(' '));
+                }
+            });
+            
+            if (hasFieldErrors) {
+                toast.error('Please correct the errors in the form.');
+            }
+        } else {
+            toast.error('Failed to save pet. Please try again.');
+        }
+    };
+
     // ── Mutations ─────────────────────────────────────────────────────────────
     const createMutation = useMutation({
         mutationFn: (payload: PetPayload) => petsApi.create(payload),
@@ -186,9 +217,7 @@ export default function PetForm() {
             toast.success('Pet added successfully.')
             navigate(returnTo || '/pets')
         },
-        onError: () => {
-            toast.error('Failed to add pet. Please try again.')
-        },
+        onError: handleApiError,
     })
 
     const updateMutation = useMutation({
@@ -199,9 +228,7 @@ export default function PetForm() {
             toast.success('Pet updated successfully.')
             navigate('/pets')
         },
-        onError: () => {
-            toast.error('Failed to update pet. Please try again.')
-        },
+        onError: handleApiError,
     })
 
     const isBusy = isSubmitting || createMutation.isPending || updateMutation.isPending
