@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace PawCare.Server.Features.Pets;
 
@@ -12,7 +12,9 @@ public sealed class CreatePetRequestValidator : AbstractValidator<CreatePetReque
 
         RuleFor(x => x.Breed)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(100)
+            .Matches(@"^[a-zA-Z\s-]+$")
+            .WithMessage("Breed can only contain letters, spaces, and hyphens.");
 
         RuleFor(x => x.Species)
             .IsInEnum();

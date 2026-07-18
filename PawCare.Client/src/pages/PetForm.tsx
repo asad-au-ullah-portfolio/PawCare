@@ -29,7 +29,10 @@ const petSchema = z
     .object({
         name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or fewer'),
         species: z.coerce.number().int().min(1).max(5, 'Please select a species'),
-        breed: z.string().min(1, 'Breed is required').max(100, 'Breed must be 100 characters or fewer'),
+        breed: z.string()
+            .min(1, 'Breed is required')
+            .max(100, 'Breed must be 100 characters or fewer')
+            .regex(/^[a-zA-Z\s-]+$/, 'Breed can only contain letters, spaces, and hyphens'),
         ageMode: z.enum(['dob', 'age']),
         dateOfBirth: z.string().optional(),
         ageInYears: z.coerce.number().int().min(0, 'Age cannot be negative').optional().or(z.literal('')),
