@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -658,6 +658,7 @@ function StepSummary({
 export function BookAppointment() {
     const { vetId }     = useParams<{ vetId: string }>()
     const navigate      = useNavigate()
+    const location      = useLocation()
     const queryClient   = useQueryClient()
     const { user }      = useAuth()
 
@@ -766,7 +767,7 @@ export function BookAppointment() {
                         <p className="text-xs text-amber-700 mt-0.5">
                             You need to add a pet before booking an appointment.{' '}
                             <button
-                                onClick={() => navigate('/pets/new')}
+                                onClick={() => navigate('/pets/new', { state: { returnTo: location.pathname } })}
                                 className="underline underline-offset-2 hover:text-amber-900 transition-colors"
                             >
                                 Add a pet

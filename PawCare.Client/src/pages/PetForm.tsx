@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -120,8 +120,11 @@ export default function PetForm() {
     const petId = id ? parseInt(id, 10) : undefined
 
     const navigate = useNavigate()
+    const location = useLocation()
     const queryClient = useQueryClient()
     const { user } = useAuth()
+    
+    const returnTo = location.state?.returnTo as string | undefined
 
     // ── Fetch existing pet (edit mode only) ────────────────────────────────────
     const { data: existingPet, isLoading: isFetching } = useQuery({
@@ -178,7 +181,7 @@ export default function PetForm() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['pets', user?.id] })
             toast.success('Pet added successfully.')
-            navigate('/pets')
+            navigate(returnTo || '/pets')
         },
         onError: () => {
             toast.error('Failed to add pet. Please try again.')
@@ -216,11 +219,11 @@ export default function PetForm() {
             {/* ── Header ─────────────────────────────────────────────────────── */}
             <div>
                 <button
-                    onClick={() => navigate('/pets')}
+                    onClick={() => navigate(returnTo || '/pets')}
                     className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-slate-900 transition-colors mb-4"
                 >
                     <ArrowLeft className="w-4 h-4" />
-                    Back to My Pets
+                    {returnTo ? 'Back' : 'Back to My Pets'}
                 </button>
                 <h1 className="text-2xl font-bold text-slate-900">
                     {isEdit ? 'Edit Pet' : 'Add a New Pet'}
@@ -369,7 +372,7 @@ export default function PetForm() {
                                 <Button
                                     type="button"
                                     variant="outline"
-                                    onClick={() => navigate('/pets')}
+                                    onClick={() => navigate(returnTo || '/pets')}
                                     disabled={isBusy}
                                 >
                                     Cancel
